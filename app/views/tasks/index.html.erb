@@ -1,0 +1,49 @@
+<h1>Tarefas</h1>
+<div class="row">
+  <div class="col-md-6">
+    <h2>To Do</h2>
+    <table class="table table-bordered task-list">
+      <tr>
+        <td>Título</td>
+        <td>Completa?</td>
+      </tr>
+      <% @undone_tasks.each do |task| %>
+        <tr>
+          <td class="col-md-8">
+            <%= task.title %>
+          </td>
+          <td class="col-md-4">
+            <%= form_tag ('/tasks/' + task.id.to_s + '/complete') do  %>
+              <%= check_box "task", "isCompleted", { checked: task.isCompleted, "data-click-submits-form" => ""} %>
+            <% end %>
+          </td> 
+        </tr>
+      <% end %>
+    </table>
+  </div>
+
+  <div class="col-md-6">
+    <h2>Done</h2>
+    <table class="table table-bordered task-list">
+      <tr>
+        <td>Título</td>
+        <td>Completa?</td>
+      </tr>
+      <% @done_tasks.each do |task| %>
+        <tr>
+          <td class="col-md-8">
+            <%= task.title %>
+          </td>
+          <td class="col-md-4">
+            <%= form_tag ('/tasks/' + task.id.to_s + '/complete') do  %>
+              <%= check_box "task", "isCompleted", { checked: task.isCompleted, "data-click-submits-form" => ""} %>
+            <% end %>
+          </td> 
+        </tr>
+      <% end %>
+    </table>
+  </div>
+
+</div>
+
+<%= link_to "Nova tarefa", new_task_path, class: "btn btn-success" %>

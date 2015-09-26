@@ -1,0 +1,12 @@
+<%= form_for @task do |f|  %>
+  <div class="col-md-offset-1">
+    <div class="form-group col-md-12">
+      <%= f.label :title %>
+      <%= f.text_field :title, class: "form-control" %>
+    </div>
+
+    <div class="col-md-12">
+      <%= f.submit :class=> "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>

@@ -14,3 +14,10 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+$(document).ready(function(){
+  
+  $('*[data-click-submits-form]').on('change', function() {
+    $(this).closest('form').submit();
+  });
+});
