@@ -13,3 +13,13 @@
  *= require_tree .
  *= require_self
  */
+
+.user-area {
+  line-height: 50px;
+  vertical-align: center;
+  float: right;
+}
+
+.user-area span{
+  color: #fff;
+}

@@ -1,0 +1,19 @@
+<h1>Projetos</h1>
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-bordered project-list">
+      <tr>
+        <td>Título</td>
+      </tr>
+      <% @projects.each do |project| %>
+        <tr>
+          <td>
+            <%= project.title %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<%= link_to "Novo projeto", new_project_path, class: "btn btn-success" %>
