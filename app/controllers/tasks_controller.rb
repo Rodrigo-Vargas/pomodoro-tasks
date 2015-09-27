@@ -27,7 +27,7 @@ class TasksController < ApplicationController
     @task = @project.tasks.new(task_params)
 
     if @task.save
-      redirect_to project_tasks_path(params[:project_id])
+      redirect_to dashboard_path
     else
       render 'new'
     end
@@ -37,10 +37,16 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
     
     if @task.update(task_params)
-      redirect_to project_tasks_path(@task.project)
+      redirect_to dashboard_path
     else 
       render 'edit'
     end
+  end
+
+  def destroy 
+    @task = Task.find(params[:id])
+    @task.destroy
+    redirect_to dashboard_path
   end
 
   def complete
@@ -55,6 +61,19 @@ class TasksController < ApplicationController
     @task.save
 
     redirect_to dashboard_path
+  end
+
+  def add_pomodoro
+    @task = Task.find(params[:id])
+    if ( @task.worked_time_minutes)
+      @task.worked_time_minutes += 25;
+    else
+       @task.worked_time_minutes = 25
+     end
+     
+    @task.save
+
+    render json: 'OK'
   end
 
   private

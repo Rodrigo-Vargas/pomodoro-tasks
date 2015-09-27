@@ -1,18 +1,32 @@
 <h1>Projetos</h1>
 <div class="row">
-  <div class="col-md-12">
-    <table class="table table-bordered project-list">
-      <tr>
-        <td>Título</td>
-      </tr>
+  <div class="col-md-10 col-md-offset-1">
+    <div>
+      <div>
+        <div class="col-md-10">Título</div>
+        <div></div>
+        <div></div>
+      </div>
       <% @projects.each do |project| %>
-        <tr>
-          <td>
+        <div class="row">
+          <div class="col-md-10">
             <%= project.title %>
-          </td>
-        </tr>
+          </div>
+          <div class="col-md-1">
+            <%= link_to edit_project_path(project) do %>
+              <span class="glyphicon glyphicon-pencil" aria-hidden="true" />
+            <% end %>
+          </div>
+          <div class="col-md-1">
+            <%= link_to project_path(project),
+                  method: :delete,
+                  data: { confirm: "Deseja excluir:" } do %>
+              <span class="glyphicon glyphicon-trash" aria-hidden="true" />
+            <% end %>
+          </div>
+        </div>
       <% end %>
-    </table>
+    </div>
   </div>
 </div>
 

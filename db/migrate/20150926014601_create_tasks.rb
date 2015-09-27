@@ -4,7 +4,8 @@ class CreateTasks < ActiveRecord::Migration
       t.string :title
       t.belongs_to :user, index: true
       t.datetime :completed_at
-      t.datetime :time_spent
+      t.integer :worked_time_minutes
+      t.integer :worked_time_seconds
 
       t.timestamps null: false
     end

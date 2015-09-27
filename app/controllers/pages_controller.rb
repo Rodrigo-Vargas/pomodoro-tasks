@@ -7,6 +7,10 @@ class PagesController < ApplicationController
   end
 
   def dashboard
-    @projects = Project.all
+    @projects = Project.where(show_in_dashboard: true)
+
+    if (params[:current_task_id])
+      @current_task = Task.find(params[:current_task_id])
+    end
   end
 end

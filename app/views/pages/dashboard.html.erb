@@ -4,28 +4,86 @@
   <div class="col-md-6">
     <div class="project-list">
       <% @projects.each do |project| %>
-        <div class="project-list-row row">
-          <div class="project-title col-md-8"><%= project.title %></div>
-          <div class="project-edit col-md-2"><%= link_to 'Editar', edit_project_path(project) %></div>
-          <div class="project-delete col-md-2"><%= link_to 'Excluir', project_path(project),
-                    method: :delete,
-                    data: { confirm: "Deseja excluir:" } %></div>
-        </div>
-        <ul>
-          <% project.tasks.each do |task| %>
-            <%= task.title %>
-            <%= form_tag ('/projects/' + project.id.to_s + '/tasks/' + task.id.to_s + '/complete') do  %>
-              <%= check_box "task", "isCompleted", { checked: task.isCompleted, "data-click-submits-form" => ""} %>
-            <% end %>
-            <%= link_to 'Editar', edit_project_task_path(project, task) %>
-            <%= link_to 'Excluir', project_task_path(project, task),
-                    method: :delete,
-                    data: { confirm: "Deseja excluir:" } %>
-          <% end %>
-        </ul>
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingOne">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  <%= project.title %>
+                </a>
+              </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+              <div class="panel-body">
+                <h5>Tarefas</h5>
+                <ul class="project-tasks-list">
+                  <% project.tasks.each do |task| %>
+                    <li class="project-task-row clearfix">
+                      <div class="col-md-9">
+                        <%= link_to task.title, dashboard_task_path(task) %>
+                      </div>
+                      <div class="col-md-1">
+                        <%= form_tag ('/projects/' + project.id.to_s + '/tasks/' + task.id.to_s + '/complete') do  %>
+                          <%= check_box "task", "isCompleted", { checked: task.isCompleted, "data-click-submits-form" => ""} %>
+                        <% end %>
+                      </div>
+                      <div class="col-md-1">
+                          <%= link_to edit_project_task_path(project, task) do %>
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true" />
+                          <% end %>
+                      </div>
 
+                      <div class="col-md-1">
+                        <%= link_to project_task_path(project, task),
+                              method: :delete,
+                              data: { confirm: "Deseja excluir:" } do %>
+                          <span class="glyphicon glyphicon-trash" aria-hidden="true" />
+                        <% end %>
+                      </div>
+                    <% end %>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
         <%= link_to 'Nova tarefa', new_project_task_path(project), class: 'btn btn-success' %>
       <% end %>
     </div>
+
+    <% if @current_task != nil %>
+      <div class="current-task">
+        <h2>Tarefa atual: <%= @current_task.title %></h2>
+        <div class="pomodoro-timer">
+          <ul id="example">
+            <li><span class="minutes">1</span><p class="minutes_text">Minutes</p></li>
+            <li class="seperator">:</li>
+            <li><span class="seconds">00</span><p class="seconds_text">Seconds</p></li>
+          </ul>
+          <%= link_to 'Iniciar', '#', { class: "start-pomodoro", 'data-project-id' => @current_task.project.id, 'data-task-id' => @current_task.id } %>
+          <a href="#" class="pause-pomodoro">Pausar</a>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
+
+<% content_for :scripts_footer do %>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("#example").each(function(){
+        $(this).pomodoroCounter();
+
+        var pomodoroInstance = $(this).data('pomodoroCounter');
+
+        $(".start-pomodoro").click(function(){
+          pomodoroInstance.start(0, 10, $(this).data('project-id'), $(this).data('task-id'));
+        });
+
+        $(".pause-pomodoro").click(function(){
+          pomodoroInstance.pause();
+        });        
+      });
+    });
+  </script>
+<% end %>

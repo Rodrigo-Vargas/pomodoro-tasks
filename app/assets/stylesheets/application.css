@@ -23,3 +23,11 @@
 .user-area span{
   color: #fff;
 }
+
+.pomodoro-timer ul {
+  list-style: none;
+}
+
+.pomodoro-timer li {
+  display: inline-block;
+}

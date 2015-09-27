@@ -14,23 +14,25 @@
 ActiveRecord::Schema.define(version: 20150926194814) do
 
   create_table "projects", force: :cascade do |t|
-    t.string   "title",      limit: 255
-    t.string   "title_slug", limit: 255
-    t.integer  "user_id",    limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "title",             limit: 255
+    t.string   "title_slug",        limit: 255
+    t.integer  "user_id",           limit: 4
+    t.boolean  "show_in_dashboard"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   add_index "projects", ["user_id"], name: "index_projects_on_user_id", using: :btree
 
   create_table "tasks", force: :cascade do |t|
-    t.string   "title",        limit: 255
-    t.integer  "user_id",      limit: 4
+    t.string   "title",               limit: 255
+    t.integer  "user_id",             limit: 4
     t.datetime "completed_at"
-    t.datetime "time_spent"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.integer  "project_id",   limit: 4
+    t.integer  "worked_time_minutes", limit: 4
+    t.integer  "worked_time_seconds", limit: 4
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "project_id",          limit: 4
   end
 
   add_index "tasks", ["project_id"], name: "index_tasks_on_project_id", using: :btree

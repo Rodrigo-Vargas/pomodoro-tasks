@@ -4,8 +4,21 @@
 
 .project-list {
   border: 1px solid #ccc;
+  padding: 20px;
 }
 
 .project-list-row div{
   display: inline;
+}
+
+.project-tasks-list {
+  padding-left: 0px;
+}
+
+.project-task-row {
+  list-style: none;
+}
+
+.project-task-row:hover {
+  background-color: #ccc;
 }
