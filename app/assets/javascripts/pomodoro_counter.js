@@ -28,15 +28,21 @@
     this.minutes = 0;
     this.seconds = 0;
     this.paused = false;
+    this.intervalTime = false;
     this.projectId;
     this.taskId;
 
     this.start = function(minutes, seconds, project_id, task_id)
     {
-      this.minutes = minutes;
-      this.seconds = seconds;
-      this.projectId = project_id;
-      this.taskId = task_id;
+      this.$el.find(".pomodoro-messages").html("");
+
+      if (!this.intervalTime)
+      {
+        this.minutes = minutes;
+        this.seconds = seconds;
+        this.projectId = project_id;
+        this.taskId = task_id;
+      }
 
       this.clock();
     }
@@ -84,15 +90,49 @@
 
       // Send AJAX request to server to add time in task
       var that = this;
+      if (this.intervalTime)
+        that.callWork();
+      else
+      {
+        $.ajax({
+          url: "/projects/" + that.projectId + "/tasks/" + that.taskId + "/add-pomodoro",
+          method: "POST",
+          success: function(data)
+          {
+            console.log('sucess');
+          }
+        });
 
+        that.callInterval();
+      }
+    }
+
+    this.doneTask = function(projectId, taskId)
+    {
       $.ajax({
-        url: "/projects/" + that.projectId +"/tasks/" + that.taskId + "/add-pomodoro",
+        url: "/projects/" + projectId + "/tasks/" + taskId + "/complete-json",
         method: "POST",
         success: function(data)
         {
           console.log('sucess');
         }
       });
+
+      window.location = '/dashboard';
+    }
+
+    this.callWork = function()
+    {
+      this.$el.find(".pomodoro-messages").html("Hora do trabalho");
+      this.intervalTime = false;
+    }
+
+    this.callInterval = function()
+    {
+      this.$el.find(".pomodoro-messages").html("Hora do intervalo");
+      this.minutes = 0;
+      this.seconds = 3;
+      this.intervalTime = true;
     }
 
     this.pause = function()

@@ -63,6 +63,14 @@ class TasksController < ApplicationController
     redirect_to dashboard_path
   end
 
+  def complete_json
+    @task = Task.find(params[:id])
+    @task.completed_at = Date.current()
+    @task.save
+
+    render json: 'OK'
+  end
+
   def add_pomodoro
     @task = Task.find(params[:id])
     if ( @task.worked_time_minutes)

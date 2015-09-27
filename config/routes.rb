@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :tasks
   end
 
-  post 'projects/:project_id/tasks/:id/complete'      => "tasks#complete"
+  post 'projects/:project_id/tasks/:id/complete' => "tasks#complete"
+  post 'projects/:project_id/tasks/:id/complete-json' => "tasks#complete_json"
   post '/projects/:project_id/tasks/:id/add-pomodoro' => "tasks#add_pomodoro"
 end
