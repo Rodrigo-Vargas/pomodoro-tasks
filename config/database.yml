@@ -51,4 +51,4 @@ production:
   <<: *default
   database: pomodoro-tasks_production
   username: pomodoro-tasks
-  password: <%= ENV['POMODORO-TASKS_DATABASE_PASSWORD'] %>
+  password: <%= ENV['POMODORO_TASKS_DATABASE_PASSWORD'] %>
